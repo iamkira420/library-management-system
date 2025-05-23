@@ -22,10 +22,7 @@ int Magazine::getIssueNumber() const {
 }
 
 void Magazine::displayItem() {
-    cout << "Title: " << getTitle() << endl;
-    cout << "Author: " << getAuthor() << endl;
-    cout << "ID: " << getId() << endl;
-    cout << "Is Borrowed: " << (getIsBorrowed() ? "Yes" : "No") << endl;
+    LibraryItem::displayItem();
     cout << "Issue Number: " << getIssueNumber() << endl;
 }
 

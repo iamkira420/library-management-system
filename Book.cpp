@@ -22,10 +22,7 @@ string Book::getGenre() const {
 }
 
 void Book::displayItem() {
-    cout << "Title: " << getTitle() << endl;
-    cout << "Author: " << getAuthor() << endl;
-    cout << "ID: " << getId() << endl;
-    cout << "Is Borrowed: " << (getIsBorrowed() ? "Yes" : "No") << endl;
+    LibraryItem::displayItem();
     cout << "Genre: " << genre << endl;
 }
 
