@@ -1,3 +1,5 @@
+# Author: Lutho Mboniswa | 69428867
+
 # COS2614 Assignment - Library Management System
 A simple Library Management System implemented using C++. The system allows users to perform basic operations such as adding books, searching for books, borrowing books, and returning books, all via a console interface.
 
@@ -33,7 +35,7 @@ Make sure the library_data.txt file is present in the same directory. This file 
 
 New records and status updates are automatically saved back to this file.
 
-# Sample Data Formar of the data in the File mentioned above
+# Sample Format of the data in the File mentioned above
 
 Fornat:
 ```
@@ -59,8 +61,6 @@ MAGAZINE,205,Cyberika,Cyberpunk,1105,false
 - library_data.txt
 - library (this file will appear after compilation with g++)
 
-# Author
 
-Lutho Mboniswa | 69428867
 
 
