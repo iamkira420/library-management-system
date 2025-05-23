@@ -47,21 +47,20 @@ MAGAZINE,205,Cyberika,Cyberpunk,1105,false
 
 # Project Structure
 
-|-- main.cpp
-|-- LibraryManager.cpp
-|-- LibraryManager.h
-|-- LibraryItem.cpp
-|-- LibraryItem.cpp
-|-- Book.cpp
-|-- Book.h
-|-- Magazine.cpp
-|-- Magazine.h
-|-- library_data.txt
-|-- library (this file will appear after compilation with g++)
+- main.cpp
+- LibraryManager.cpp
+- LibraryManager.h
+- LibraryItem.cpp
+- LibraryItem.cpp
+- Book.cpp
+- Book.h
+- Magazine.cpp
+- Magazine.h
+- library_data.txt
+- library (this file will appear after compilation with g++)
 
 # Author
 
-Lutho Mboniswa
-69428867
-COS2614 Assignment 1
+Lutho Mboniswa | 69428867
+
 
