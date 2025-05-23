@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <limits>
 #include <unordered_map>
 
 /*
@@ -14,7 +15,7 @@ LibraryManager::LibraryManager() {
 }
 */
 
-// add books to the library
+// add books to the library map
 void LibraryManager::addBook() {
     string title, author, genre;
     bool isBorrowed;
@@ -26,13 +27,21 @@ void LibraryManager::addBook() {
     getline(cin, author);
     cout << "Enter book genre: ";
     getline(cin, genre);
+
     do { // ensure the user enters the correct ID value
         cout << "Enter book id (100 - 499): ";
         cin >> id;
         if (id < 100 || id > 499) {
             cout << "Invalid book ID! Please enter a number between 100 and 499 inclusive." << endl;
+        } else if (libraryItems.count(id) > 0) { // check if the ID already exists
+            cout << "Book ID already exists! Please enter a unique ID." << endl;
+            id = -1; // reset id to an invalid value to continue the loop
         }
+
+        cin.clear(); // Clear the error flag
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
     } while (id < 100 || id > 499);
+
     cout << "Is the book available, i.e., not borrowed? (true for borrowed, false for not borrowed)? ";
     cin >> isBorrowed;
     cin.ignore(); // Clear a newline character from the input buffer
@@ -46,7 +55,7 @@ void LibraryManager::addBook() {
     //newBook->setType("Book");
     
     libraryItems[id] = newBook; // add the book to the library
-    cout << "Book added successfully!" << endl;
+    cout << "\nBook added successfully!" << endl;
     saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 // add magazines to the library
@@ -64,15 +73,35 @@ void LibraryManager::addMagazine() {
         cin >> id;
         if (id < 500 || id > 999) {
             cout << "Invalid magazine ID! Please enter a number between 500 and 999 inclusive." << endl;
+        } else if (libraryItems.count(id) > 0) { // check if the ID already exists
+            cout << "Magazine ID already exists! Please enter a unique ID." << endl;
+            id = -1; // reset id to an invalid value to continue the loop
         }
     } while (id < 500 || id > 999);
+
+    bool duplicateIssueNum;
     do { // ensure the user enters the correct issue number 
+        duplicateIssueNum = false; // tracker for duplicate issue numbers
         cout << "Enter the magazine issue number (1000 - 9999): ";
         cin >> issueNumber;
-        if (id < 1000 || issueNumber > 9999) {
+        if (issueNumber < 1000 || issueNumber > 9999) {
             cout << "Invalid Issue Number! Please enter a number between 1000 and 9999." << endl;
+        } else {
+            // check if the issue number already exists
+            for (const auto& mgzn : libraryItems) {
+                Magazine* mag = dynamic_cast<Magazine*>(mgzn.second);
+                if (mag && mag->getIssueNumber() == issueNumber) {
+                    cout << "That issue number already exists! Please enter a unique issue number." << endl;
+                    duplicateIssueNum = true;
+                    break;
+                }
+            }
         }
-    } while (id < 1000 || id > 9999);
+
+        cin.clear(); // Clear the error flag
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+    } while (issueNumber < 1000 || issueNumber > 9999 || duplicateIssueNum);
+
     cout << "Is the magazine available, i.e., not borrowed? (true for borrowed, false for not borrowed)? ";
     cin >> isBorrowed;
     cin.ignore(); // Clear a newline character from the input buffer
@@ -86,7 +115,7 @@ void LibraryManager::addMagazine() {
     //newMagazine->setType("Magazine");
     
     libraryItems[id] = newMagazine; // add the magazine to the library
-    cout << "Magazine added successfully!" << endl;
+    cout << "\nMagazine added successfully!" << endl;
     saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 
@@ -96,16 +125,17 @@ void LibraryManager::searchById(int id) {
     auto iterator = libraryItems.find(id);
 
     if (iterator != libraryItems.end()) {
+        cout << endl;
         iterator->second->displayItem();
     } else {
-        cout << "Item not found, please try again!" << endl;
+        cout << "\nItem not found, please try again!" << endl;
     }
 }
 
 // display all items in the library
 void LibraryManager::displayAllItems() {
     if (libraryItems.empty()) {
-        cout << "Currently no items in the library. Please add items and try again!" << endl;
+        cout << "\nCurrently no items in the library. Please add items and try again!" << endl;
         //return;
     }
     for (auto& item: libraryItems) {
@@ -118,15 +148,15 @@ void LibraryManager::displayAllItems() {
 bool LibraryManager::borrowItem(int id) {
     if (libraryItems.find(id) != libraryItems.end()) {
         if (libraryItems[id]->getIsBorrowed()) {
-            cout << "Item is already borrowed! Please return later!" << endl;
+            cout << "\nItem is already borrowed! Please return later!" << endl;
             return false;
         } else {
             libraryItems[id]->setIsBorrowed(true);
-            cout << "Item borrowed successfully! Please do return it on time!" << endl;
+            cout << "\nItem borrowed successfully! Please do return it on time!" << endl;
             return true;
         }
     } else {
-        cout << "Item not found! Please try again!" << endl;
+        cout << "\nItem not found! Please try again!" << endl;
         return false;
     }
 
@@ -136,11 +166,11 @@ bool LibraryManager::borrowItem(int id) {
 bool LibraryManager::returnItem(int id) {
     if (libraryItems.find(id) != libraryItems.end()) {
         if (!libraryItems[id]->getIsBorrowed()) { // if isBorrowed is false
-            cout << "Item is not borrowed! Please borrow it first!" << endl;
+            cout << "\nItem is not borrowed! Please borrow it first!" << endl;
             return false;
         } else {
             libraryItems[id]->setIsBorrowed(false);
-            cout << "Item returned successfully! Thank you!" << endl;
+            cout << "\nItem returned successfully! Thank you!" << endl;
             return true;
         }
     } else {
@@ -212,7 +242,7 @@ void LibraryManager::loadDataFromFile(const string& filename) {
     }
 
     MyReadfile.close(); // close file after use
-    cout << "Data loaded successfully!" << endl;
+    cout << "\nData loaded successfully!" << endl;
 }
 
 void LibraryManager::saveDataToFile(const string& filename) {
@@ -253,5 +283,5 @@ void LibraryManager::saveDataToFile(const string& filename) {
     }
 
     MyWriteFile.close(); // close file after use
-    cout << "Library data saved successfully to << " << filename << "!" << endl;
+    // cout << "Library data saved successfully to << " << filename << "!" << endl;
 }

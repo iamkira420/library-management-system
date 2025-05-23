@@ -25,7 +25,7 @@ void Magazine::setIssueNumber(int issueNum) {
     if (issueNum >= 1000 && issueNum <= 9999) {
         issueNumber = issueNum;
     } else {
-        cout << "Invalid issue number! Please enter a number between 1001 and 9999." << endl;
+        cout << "Invalid issue number! Please enter a number between 1000 and 9999." << endl;
     }
 }
 
