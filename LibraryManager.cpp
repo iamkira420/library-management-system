@@ -1,3 +1,14 @@
+/**
+ * This is the brain for the Library Management System. 
+ * It manages the library items, including adding, borrowing, returning, and displaying items.
+ * It also handles loading and saving data to a file.
+ * @author Lutho Mboniswa
+ * @studentNumber 69428867
+ * @date 23 May 2025
+ * @version 1.0
+ * @note This class is intended to be used with the LibraryItem, Book, and Magazine classes.
+ */
+
 #include "LibraryManager.h"
 #include "Book.h"
 #include "Magazine.h"
@@ -15,7 +26,12 @@ LibraryManager::LibraryManager() {
 }
 */
 
-// add books to the library map
+/**
+ * Add a book to the library.
+ * Prompts the user for book details such as title, author, genre, ID, and availability.
+ * Validates the ID and checks for duplicates before adding the book to the library.
+ * Saves the updated library data to a file.
+ */
 void LibraryManager::addBook() {
     string title, author, genre;
     bool isBorrowed;
@@ -58,7 +74,12 @@ void LibraryManager::addBook() {
     cout << "\nBook added successfully!" << endl;
     saveDataToFile("library_data.txt"); // save the updated library data to file
 }
-// add magazines to the library
+/**
+ * Add a magazine to the library.
+ * Prompts the user for magazine details such as title, author, issue number, ID, and availability.
+ * Validates the ID and issue number and checks for duplicates before adding the magazine to the library.
+ * Saves the updated library data to a file.
+ */
 void LibraryManager::addMagazine() {
     string title, author;
     bool isBorrowed;
@@ -120,7 +141,11 @@ void LibraryManager::addMagazine() {
 }
 
 
-// search for a book or magazine by id
+/**
+ * Search for an item in the library by its ID.
+ * If the item is found, it displays the item details.
+ * If not found, it prompts the user to try again.
+ */
 void LibraryManager::searchById(int id) {
     auto iterator = libraryItems.find(id);
 
@@ -132,7 +157,9 @@ void LibraryManager::searchById(int id) {
     }
 }
 
-// display all items in the library
+/**
+ * Display all items currently in the library.
+ */
 void LibraryManager::displayAllItems() {
     if (libraryItems.empty()) {
         cout << "\nCurrently no items in the library. Please add items and try again!" << endl;
@@ -144,7 +171,11 @@ void LibraryManager::displayAllItems() {
     }
 }
 
-// boorrowing a book/magazine given its id
+/**
+ * Borrow an item from the library.
+ * Checks if the item is already borrowed.
+ * If not, it marks the item as borrowed and saves the updated data to a file.
+ */
 bool LibraryManager::borrowItem(int id) {
     if (libraryItems.find(id) != libraryItems.end()) {
         if (libraryItems[id]->getIsBorrowed()) {
@@ -163,6 +194,11 @@ bool LibraryManager::borrowItem(int id) {
     saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 
+/**
+ * Return an item to the library.
+ * Checks if the item is already borrowed.
+ * If not, it marks the item as not borrowed and saves the updated data to a file.
+ */
 bool LibraryManager::returnItem(int id) {
     if (libraryItems.find(id) != libraryItems.end()) {
         if (!libraryItems[id]->getIsBorrowed()) { // if isBorrowed is false
@@ -181,7 +217,10 @@ bool LibraryManager::returnItem(int id) {
     saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 
-// load data into the library (map) from the text file
+/**
+ * Load data from a file into the library.
+ * The file should contain information about books and magazines in a specific format documented in the README.txt file.
+ */
 void LibraryManager::loadDataFromFile(const string& filename) {
     ifstream MyReadfile(filename);
     if (!MyReadfile) {
@@ -245,6 +284,10 @@ void LibraryManager::loadDataFromFile(const string& filename) {
     cout << "\nData loaded successfully!" << endl;
 }
 
+/**
+ * Save the current library data to a file.
+ * The data is saved in a specific format documented in the README.txt file.
+ */
 void LibraryManager::saveDataToFile(const string& filename) {
     ofstream MyWriteFile(filename);
     if (!MyWriteFile) {

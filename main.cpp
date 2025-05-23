@@ -1,3 +1,18 @@
+/**
+ * Main menu for the library management system.
+ * This program allows users to add books and magazines, borrow and return items,
+ * search for items by ID, and display all items in the library.
+ * The data is loaded from and saved to a text file.
+ * @author Lutho Mboniswa
+ * @studentNumber 69428867
+ * @date 23 May 2025
+ * @version 1.0
+ * @note My output has a bug that appears after adding a book or magazine. Instead of prompting you for the next action, somehow it gets input which is invalid and proceeds to say invalid input, please try again. 
+ *  On the next iteration, it will prompt you for the next action. I have tried to fix this but I am not sure how to do it. I have already ruined my previous codebase trying to fix it so now I just left it as is. 
+ *  I will put my github below, in case of a possible solution.
+ * @github https://github.com/iamkira420/library-management-system 
+ */
+
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -10,10 +25,11 @@ using namespace std;
 
 int main() {
     LibraryManager libManager;
-    libManager.loadDataFromFile("library_data.txt");
+    libManager.loadDataFromFile("library_data.txt"); // load data into the library (map) from the text file
 
+    // start of the main menu loop
     while (true) {
-        cout << "\n\t\t\t\tEspanda Library Main Menu" << endl;
+        cout << "\n\t\t\tLibrary Management System Main Menu" << endl;
         cout << "\n1. Add Book";
         cout << "\n2. Add Magazine";
         cout << "\n3. Borrow Item";
@@ -23,8 +39,10 @@ int main() {
         cout << "\n7. Exit";
         cout << "\nPlease select an option => ";
         int choice;
-        cin >> choice;
-        if (cin.fail()) {
+        cin >> choice; 
+
+        if (cin.fail()) { // Check if the input is valid
+            // If not, clear the error state and ignore the rest of the line
             cin.clear(); // Clear the error flag
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
             cout << "\nInvalid input! Please enter a number." << endl;

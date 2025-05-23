@@ -1,3 +1,5 @@
+BOOK,404,20th Century Boys,Naoki Urasawa,Manga,false
+MAGAZINE,666,The Times Now,New York Times,1234,false
 BOOK,444,Jojos Bizarre Adventure,Hirohiko Araki,Manga,false
 BOOK,101,Buggy Code,Chad Jippity,Software Development,false
 MAGAZINE,504,Dream League Soccer,Football,1109,false
@@ -11,4 +13,3 @@ BOOK,105,The Art of Aura Farming,Piccolo,Animanga,true
 BOOK,349,The Art of War,Sun Tzu,Warfare,false
 MAGAZINE,885,Shonen Jump,Shonen Magazine,1237,false
 BOOK,102,LLMs and the Future of Software Development,Google Bard,Artificial Intelligence,false
-MAGAZINE,666,The Times Now,New York Times,1234,false

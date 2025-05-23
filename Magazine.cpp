@@ -1,3 +1,15 @@
+/**
+ * Magazine class implementation
+ * This class represents a magazine in the library system.
+ * It inherits from the LibraryItem class and adds an issue number attribute.
+ * The class provides methods to set and get the issue number, as well as to display the magazine information.
+ * @author Lutho Mboniswa
+ * @studentNumber 69428867
+ * @date 23 May 2025
+ * @version 1.0
+ * @note This class is intended to be used in conjunction with the LibraryManager class to manage library items.
+ */
+
 #include "Magazine.h"
 #include "LibraryItem.h"
 #include <iostream>
