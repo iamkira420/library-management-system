@@ -17,5 +17,6 @@ class LibraryManager {
         void displayAllItems();
         void searchById(int);
         LibraryItem* findItemById(int id);
+        void loadDataFromFile(const string&);
 };
 

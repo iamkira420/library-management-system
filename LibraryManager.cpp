@@ -41,7 +41,7 @@ void LibraryManager::addBook() {
     libraryItems[id] = newBook; // add the book to the library
     cout << "Book added successfully!" << endl;
 }
-
+// add magazines to the library
 void LibraryManager::addMagazine() {
     string title, author;
     bool isBorrowed;
@@ -86,10 +86,107 @@ void LibraryManager::searchById(int id) {
 // display all items in the library
 void LibraryManager::displayAllItems() {
     if (libraryItems.empty()) {
-        cout << "No items in the library." << endl;
+        cout << "Currently no items in the library. Please add items and try again!" << endl;
         //return;
     }
     for (auto& item: libraryItems) {
         item.second->displayItem();
     }
+}
+
+// boorrowing a book/magazine given its id
+bool LibraryManager::borrowItem(int id) {
+    if (libraryItems.find(id) != libraryItems.end()) {
+        if (libraryItems[id]->getIsBorrowed()) {
+            cout << "Item is already borrowed! Please return later!" << endl;
+            return false;
+        } else {
+            libraryItems[id]->setIsBorrowed(true);
+            cout << "Item borrowed successfully! Please do return it on time!" << endl;
+            return true;
+        }
+    } else {
+        cout << "Item not found! Please try again!" << endl;
+        return false;
+    }
+}
+
+bool LibraryManager::returnItem(int id) {
+    if (libraryItems.find(id) != libraryItems.end()) {
+        if (!libraryItems[id]->getIsBorrowed()) { // if isBorrowed is false
+            cout << "Item is not borrowed! Please borrow it first!" << endl;
+            return false;
+        } else {
+            libraryItems[id]->setIsBorrowed(false);
+            cout << "Item returned successfully! Thank you!" << endl;
+            return true;
+        }
+    } else {
+        cout << "Item not found! Please try again!" << endl;
+        return false;
+    }
+}
+
+// load data into the library (map) from the text file
+void LibraryManager::loadDataFromFile(const string& filename) {
+    Book* book = new Book();
+    Magazine* magazine = new Magazine();
+    ifstream MyReadfile(filename);
+    if (!MyReadfile) {
+        cerr << "Error opening file!" << filename << endl;
+        return;
+    }
+
+    string line; // string to hold each line in the text file
+    while (getline(MyReadfile, line)) {
+        stringstream ss(line);
+        string type;
+        getline(ss, type, ','); // read the type of item (Book or Magazine)
+        string title, author;
+        int id;
+        bool isBorrowed;
+
+        if (type == "BOOK") {
+            string genre, holder;
+            getline(ss, holder, ',');
+            id = stoi(holder);
+            getline(ss, title, ',');
+            getline(ss, author, ',');
+            getline(ss, genre, ',');
+            getline(ss, holder);
+            isBorrowed = (holder == "true");
+
+            book->setId(id);
+            book->setTitle(title);
+            book->setAuthor(author);
+            book->setGenre(genre);
+            book->setIsBorrowed(isBorrowed);
+            libraryItems[id] = book; // add the book to the library
+        }
+        else if (type == "MAGAZINE") {
+            string holder;
+            int issueNumber;
+            getline(ss, holder, ',');
+            id = stoi(holder);
+            getline(ss, title, ',');
+            getline(ss, author, ',');
+            getline(ss, holder);
+            issueNumber = stoi(holder);
+            isBorrowed = (holder == "true");
+
+            magazine->setId(id);
+            magazine->setTitle(title);
+            magazine->setAuthor(author);
+            magazine->setIssueNumber(issueNumber);
+            magazine->setIsBorrowed(isBorrowed);
+            libraryItems[id] = magazine; // add the magazine to the library
+        }
+        else {
+            cout << "Unknown item type: " << type << endl;
+            continue; // skip this line and continue to the next one
+        }
+    }
+
+    MyReadfile.close(); // close file after use
+    cout << "Data loaded successfully!" << endl;
 }
