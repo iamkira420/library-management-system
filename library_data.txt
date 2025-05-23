@@ -1,0 +1,10 @@
+BOOK,101,Buggy Code,Chad Jippity,Software Development,false
+BOOK,102,LLMs and the Future of Software Development,Google Bard,Artificial Intelligence, true
+BOOK,105,The Art of Aura Farming,Piccolo,Animanga,true
+BOOK,108,Uploaded Intelligence,Stephen Holstrom,Technology,false
+BOOK,103,Writing GOATED Anime Villains,Naoki Urasawa,Anime,true
+MAGAZINE,201,Darknet Diaries,Cybercrime,1104,true
+MAGAZINE,204,SGPN,Gambling,1101,true
+MAGAZINE,205,Cyberika,Cyberpunk,1105,false
+MAGAZINE,203,Dream League Soccer,Football,1109,true
+MAGAZINE,206,Daily Tech News Show,Technology,1107,false

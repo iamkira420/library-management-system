@@ -8,8 +8,8 @@ class LibraryManager {
     private:
         unordered_map<int, LibraryItem*> libraryItems;
     public:
-        void loadData(const string& filename);
-        void saveData(const string& filename);
+        //void loadData(const string& filename);
+        //void saveData(const string& filename);
         void addBook();
         void addMagazine();
         bool borrowItem(int);
@@ -17,6 +17,6 @@ class LibraryManager {
         void displayAllItems();
         void searchById(int);
         LibraryItem* findItemById(int id);
-        void loadDataFromFile(const string&);
+        void loadDataFromFile(const string& filename);
 };
 

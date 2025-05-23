@@ -8,9 +8,11 @@
 #include <string>
 #include <unordered_map>
 
-
-LibraryManager::LibraryManager() {}
-
+/*
+LibraryManager::LibraryManager() {
+    loadDataFromFile("library_data.txt");
+}
+*/
 
 // add books to the library
 void LibraryManager::addBook() {
@@ -68,7 +70,7 @@ void LibraryManager::addMagazine() {
     //newMagazine->setType("Magazine");
     
     libraryItems[id] = newMagazine; // add the magazine to the library
-    cout << "Magazine added successfully!" << endl;
+    //cout << "Magazine added successfully!" << endl;
 }
 
 
@@ -91,6 +93,7 @@ void LibraryManager::displayAllItems() {
     }
     for (auto& item: libraryItems) {
         item.second->displayItem();
+        cout << endl;
     }
 }
 
@@ -129,8 +132,6 @@ bool LibraryManager::returnItem(int id) {
 
 // load data into the library (map) from the text file
 void LibraryManager::loadDataFromFile(const string& filename) {
-    Book* book = new Book();
-    Magazine* magazine = new Magazine();
     ifstream MyReadfile(filename);
     if (!MyReadfile) {
         cerr << "Error opening file!" << filename << endl;
@@ -147,6 +148,7 @@ void LibraryManager::loadDataFromFile(const string& filename) {
         bool isBorrowed;
 
         if (type == "BOOK") {
+            Book* book = new Book(); // create a new book object
             string genre, holder;
             getline(ss, holder, ',');
             id = stoi(holder);
@@ -164,6 +166,7 @@ void LibraryManager::loadDataFromFile(const string& filename) {
             libraryItems[id] = book; // add the book to the library
         }
         else if (type == "MAGAZINE") {
+            Magazine* magazine = new Magazine(); // create a new magazine object
             string holder;
             int issueNumber;
             getline(ss, holder, ',');
