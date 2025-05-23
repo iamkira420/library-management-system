@@ -18,5 +18,6 @@ class LibraryManager {
         void searchById(int);
         LibraryItem* findItemById(int id);
         void loadDataFromFile(const string& filename);
+        void saveDataToFile(const string& filename);
 };
 

@@ -26,8 +26,13 @@ void LibraryManager::addBook() {
     getline(cin, author);
     cout << "Enter book genre: ";
     getline(cin, genre);
-    cout << "Enter book id: ";
-    cin >> id;
+    do { // ensure the user enters the correct ID value
+        cout << "Enter book id (100 - 499): ";
+        cin >> id;
+        if (id < 100 || id > 499) {
+            cout << "Invalid book ID! Please enter a number between 100 and 499 inclusive." << endl;
+        }
+    } while (id < 100 || id > 499);
     cout << "Is the book available, i.e., not borrowed? (true for borrowed, false for not borrowed)? ";
     cin >> isBorrowed;
     cin.ignore(); // Clear a newline character from the input buffer
@@ -42,6 +47,7 @@ void LibraryManager::addBook() {
     
     libraryItems[id] = newBook; // add the book to the library
     cout << "Book added successfully!" << endl;
+    saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 // add magazines to the library
 void LibraryManager::addMagazine() {
@@ -53,10 +59,20 @@ void LibraryManager::addMagazine() {
     getline(cin, title);
     cout << "Enter magazine publisher (author): ";
     getline(cin, author);
-    cout << "Enter magazine id: ";
-    cin >> id;
-    cout << "Enter magazine issue number: ";
-    cin >> issueNumber;
+    do { // ensure the user enters the correct ID value
+        cout << "Enter magazine id (500 - 999): ";
+        cin >> id;
+        if (id < 500 || id > 999) {
+            cout << "Invalid magazine ID! Please enter a number between 500 and 999 inclusive." << endl;
+        }
+    } while (id < 500 || id > 999);
+    do { // ensure the user enters the correct issue number 
+        cout << "Enter the magazine issue number (1000 - 9999): ";
+        cin >> issueNumber;
+        if (id < 1000 || issueNumber > 9999) {
+            cout << "Invalid Issue Number! Please enter a number between 1000 and 9999." << endl;
+        }
+    } while (id < 1000 || id > 9999);
     cout << "Is the magazine available, i.e., not borrowed? (true for borrowed, false for not borrowed)? ";
     cin >> isBorrowed;
     cin.ignore(); // Clear a newline character from the input buffer
@@ -70,7 +86,8 @@ void LibraryManager::addMagazine() {
     //newMagazine->setType("Magazine");
     
     libraryItems[id] = newMagazine; // add the magazine to the library
-    //cout << "Magazine added successfully!" << endl;
+    cout << "Magazine added successfully!" << endl;
+    saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 
 
@@ -112,6 +129,8 @@ bool LibraryManager::borrowItem(int id) {
         cout << "Item not found! Please try again!" << endl;
         return false;
     }
+
+    saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 
 bool LibraryManager::returnItem(int id) {
@@ -128,6 +147,8 @@ bool LibraryManager::returnItem(int id) {
         cout << "Item not found! Please try again!" << endl;
         return false;
     }
+
+    saveDataToFile("library_data.txt"); // save the updated library data to file
 }
 
 // load data into the library (map) from the text file
@@ -192,4 +213,45 @@ void LibraryManager::loadDataFromFile(const string& filename) {
 
     MyReadfile.close(); // close file after use
     cout << "Data loaded successfully!" << endl;
+}
+
+void LibraryManager::saveDataToFile(const string& filename) {
+    ofstream MyWriteFile(filename);
+    if (!MyWriteFile) {
+        cerr << "Error opening file!" << filename << endl;
+        return;
+    }
+
+    for (const auto& item: libraryItems) {
+        LibraryItem* libraryItem = item.second;
+
+        // using dynamic cast to determine the type of item (is it book or magazine?)
+        Book* book = dynamic_cast<Book*>(libraryItem);
+        if (book) {
+            MyWriteFile << "BOOK,"
+                        << book->getId() << ","
+                        << book->getTitle() << ","
+                        << book->getAuthor() << ","
+                        << book->getGenre() << ","
+                        << (book->getIsBorrowed() ? "true" : "false") 
+                        << endl;
+            continue;
+        }
+
+        Magazine* magazine = dynamic_cast<Magazine*>(libraryItem);
+        if (magazine) {
+            MyWriteFile << "MAGAZINE,"
+                        << magazine->getId() << ","
+                        << magazine->getTitle() << ","
+                        << magazine->getAuthor() << ","
+                        << magazine->getIssueNumber() << ","
+                        << (magazine->getIsBorrowed() ? "true" : "false") 
+                        << endl;
+            continue;
+        }
+        cout << "Unknown item type!" << endl; // if the item is neither book nor magazine
+    }
+
+    MyWriteFile.close(); // close file after use
+    cout << "Library data saved successfully to << " << filename << "!" << endl;
 }

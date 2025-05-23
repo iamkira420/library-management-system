@@ -15,6 +15,7 @@ class Book : public LibraryItem {
         Book();
         Book(Book&, string);
         Book (string, string, int, bool, string);
+        void setId(int) override;
         void setGenre(string);
         string getGenre() const;
         void displayItem() override;

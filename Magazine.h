@@ -15,6 +15,7 @@ class Magazine : public LibraryItem {
         Magazine();
         Magazine(Magazine&, int);
         Magazine (string, string, int, bool, int);
+        void setId(int) override;
         void setIssueNumber(int);
         int getIssueNumber() const;
         void displayItem() override;

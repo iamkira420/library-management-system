@@ -19,7 +19,7 @@ class LibraryItem {
         void setLibraryItem(string, string, int, bool);
         void setTitle(string);
         void setAuthor(string);
-        void setId(int);
+        virtual void setId(int);
         void setIsBorrowed(bool);
         void setLibraryItem(LibraryItem&);
         string getTitle();
